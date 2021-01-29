@@ -1,6 +1,6 @@
 module Exercise09 exposing (Fruit(..), decoder)
 
-import Json.Decode exposing (Decoder, fail)
+import Json.Decode as Decode exposing (Decoder, fail, succeed)
 
 
 
@@ -37,12 +37,22 @@ type Fruit
 
 decoder : Decoder Fruit
 decoder =
-    fail "Nevermind me."
+    Decode.string
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "apple" ->
+                        succeed Apple
 
+                    "orange" ->
+                        succeed Orange
 
-fruitDecoder : String -> Decoder Fruit
-fruitDecoder fruitAsString =
-    fail "Unknown fruit."
+                    "banana" ->
+                        succeed Banana
+
+                    _ ->
+                        fail "Unknown fruit."
+            )
 
 
 
