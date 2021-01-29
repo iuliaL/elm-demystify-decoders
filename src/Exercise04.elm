@@ -1,6 +1,6 @@
 module Exercise04 exposing (decoder)
 
-import Json.Decode as Decode exposing (Decoder, fail)
+import Json.Decode as Decode exposing (Decoder)
 
 
 
