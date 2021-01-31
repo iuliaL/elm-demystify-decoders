@@ -1,6 +1,7 @@
 module Exercise12 exposing (Tree(..), decoder)
 
-import Json.Decode exposing (Decoder, fail)
+import Json.Decode exposing (Decoder, lazy, field, int, map2, string, list)
+import Json.Decode exposing (oneOf)
 
 
 
@@ -20,8 +21,8 @@ import Json.Decode exposing (Decoder, fail)
    Example input:
 
         var input = { "name": "parent", "children": [
-            { "name": "foo", "value": 5 },
-            { "name": "empty", "children": [] }
+            { "name": "foo", "value": 5 }, -- LEAF
+            { "name": "empty", "children": [] } -- EMPTY BRANCH
         ]};
 
     Example output:
@@ -33,19 +34,22 @@ import Json.Decode exposing (Decoder, fail)
 -}
 
 
-type
-    Tree
-    -- Either a branch with a name and a list of subtrees
+type Tree
     = Branch String (List Tree)
-      -- Or we're at a leaf, and we just have a name and a value
     | Leaf String Int
 
 
 decoder : Decoder Tree
 decoder =
-    fail "I'm not a tree."
+    oneOf [leafDecoder, branchDecoder]
 
 
+leafDecoder : Decoder Tree
+leafDecoder =
+    map2 Leaf (field "name" string) (field "value" int)
+
+branchDecoder: Decoder Tree
+branchDecoder = map2 Branch (field "name" string) (field "children" (lazy (\() -> list decoder)))
 
 {- Once you think you're done, run the tests for this exercise from the root of
    the project:
