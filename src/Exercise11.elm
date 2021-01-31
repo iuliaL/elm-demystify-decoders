@@ -1,6 +1,8 @@
 module Exercise11 exposing (decoder)
 
-import Json.Decode exposing (Decoder, fail)
+import Json.Decode exposing (Decoder, field, int, list, map)
+import Json.Decode exposing (andThen)
+import Json.Decode exposing (succeed)
 
 
 
@@ -30,9 +32,21 @@ import Json.Decode exposing (Decoder, fail)
 
 decoder : Decoder (List Int)
 decoder =
-    fail "Implement me!"
+    field "number"
+        (Json.Decode.oneOf
+            [ decodeIntAndWrapInList
+            , list int
+            ]
+        )
 
-
+decodeIntAndWrapInList: Decoder (List Int)
+decodeIntAndWrapInList = 
+{-} Dummy "unpacking" val in int decoder and then "repacking" in list
+ 
+ -- int |>  andThen (\int -> succeed [int])
+  or elegantly use
+ -}
+     int |> map List.singleton
 
 {- Once you think you're done, run the tests for this exercise from the root of
    the project:

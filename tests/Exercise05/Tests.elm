@@ -2,7 +2,7 @@ module Exercise05.Tests exposing (all)
 
 import Exercise05 exposing (decoder)
 import Expect
-import Fuzz exposing (Fuzzer, intRange, string)
+import Fuzz exposing (intRange, string)
 import Json.Decode
 import Json.Encode as Encode exposing (Value)
 import Test exposing (..)

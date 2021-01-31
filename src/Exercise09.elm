@@ -37,22 +37,22 @@ type Fruit
 
 decoder : Decoder Fruit
 decoder =
-    Decode.string
-        |> Decode.andThen
-            (\str ->
-                case str of
-                    "apple" ->
-                        succeed Apple
+    Decode.andThen
+        (\str ->
+            case str of
+                "apple" ->
+                    succeed Apple
 
-                    "orange" ->
-                        succeed Orange
+                "orange" ->
+                    succeed Orange
 
-                    "banana" ->
-                        succeed Banana
+                "banana" ->
+                    succeed Banana
 
-                    _ ->
-                        fail "Unknown fruit."
-            )
+                _ ->
+                    fail "Unknown fruit."
+        )
+        Decode.string
 
 
 
